@@ -18,3 +18,11 @@
   border: 4px dotted lightblue;
   background: lightcoral;
 }
+
+.food {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border: 4px dotted rgb(255, 132, 66);
+  background: rgb(250, 209, 74);
+}

@@ -7,7 +7,20 @@ document.addEventListener("keydown", movePlayer, false);
 let playerSize = player.offsetWidth;
 let movedHorizontal = 0;
 let movedVertical = 0;
+let i = 0
 
+
+function randomPosition(num) {
+    let x = 0;
+    let possiblePosition = 0;
+    let randomePositionArr = [];
+    while ((num - 1) > x) {
+        possiblePosition += playerSize
+        randomePositionArr.push(possiblePosition)
+        x++;
+    }
+    return randomePositionArr[Math.floor(Math.random() * randomePositionArr.length)];
+}
 
 function movePlayer(e) {
     switch (e.keyCode) {
@@ -57,10 +70,19 @@ function moveRight() {
 }
 
 function moveDown() {
-    if (movedVertical < Math.floor(window.innerHeight - playerSize)) {
+    if (movedVertical < Math.floor(window.innerHeight - playerSize * 2)) {
         movedVertical += playerSize;
         player.style.top = `${movedVertical}px`
         return;
     }
     return;
+}
+
+while (i < 10) {
+    const food = document.createElement('div');
+    food.classList.add('food');
+    food.style.top = `${randomPosition(Math.floor(window.innerHeight / playerSize))}px`;
+    food.style.left = `${randomPosition(Math.floor(window.innerWidth / playerSize))}px`;
+    playground.appendChild(food)
+    i++
 }
