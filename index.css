@@ -26,3 +26,16 @@
   border: 4px dotted rgb(255, 132, 66);
   background: rgb(250, 209, 74);
 }
+
+@keyframes congratulationsColor {
+    20% {background-color: rgb(253, 171, 171);}
+    40% {background-color: rgb(247, 187, 250);}
+    60% {background-color: rgb(168, 222, 255);}
+    80% {background-color: rgb(175, 255, 175);}
+    100% {background-color: rgb(255, 188, 180);}
+}
+
+
+.congratulations {
+    animation: congratulationsColor 4s alternate infinite;
+}

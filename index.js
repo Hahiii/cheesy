@@ -1,13 +1,14 @@
 const playground = document.querySelector('.playground');
 const player = document.querySelector('.player');
-console.log(playground);
-console.log(player);
+
 document.addEventListener("keydown", movePlayer, false);
 
 let playerSize = player.offsetWidth;
 let movedHorizontal = 0;
 let movedVertical = 0;
-let i = 0
+let randomePositionList = [];
+let foodCount = 10;
+let i = 0;
 
 
 function randomPosition(num) {
@@ -46,6 +47,7 @@ function moveLeft() {
     if (player.style.left > "0px") {
         movedHorizontal -= playerSize;
         player.style.left = `${movedHorizontal}px`;
+        checkFoodPosition();
         return;
     }
     return;
@@ -54,16 +56,18 @@ function moveLeft() {
 function moveTop() {
     if (player.style.top > "0px") {
         movedVertical -= playerSize;
-        player.style.top = `${movedVertical}px`
+        player.style.top = `${movedVertical}px`;
+        checkFoodPosition();
         return;
     }
     return;
 }
 
 function moveRight() {
-    if (movedHorizontal < Math.floor(window.innerWidth)) {
+    if (movedHorizontal < Math.floor(window.innerWidth - playerSize)) {
         movedHorizontal += playerSize;
         player.style.left = `${movedHorizontal}px`;
+        checkFoodPosition();
         return;
     }
     return;
@@ -72,17 +76,47 @@ function moveRight() {
 function moveDown() {
     if (movedVertical < Math.floor(window.innerHeight - playerSize * 2)) {
         movedVertical += playerSize;
-        player.style.top = `${movedVertical}px`
+        player.style.top = `${movedVertical}px`;
+        checkFoodPosition();
         return;
     }
     return;
 }
 
-while (i < 10) {
+while (i < foodCount) {
     const food = document.createElement('div');
+    food.id = `food-${i}`;
     food.classList.add('food');
     food.style.top = `${randomPosition(Math.floor(window.innerHeight / playerSize))}px`;
     food.style.left = `${randomPosition(Math.floor(window.innerWidth / playerSize))}px`;
-    playground.appendChild(food)
-    i++
+    randomePositionList.push({
+        top: food.style.top,
+        left: food.style.left,
+        id: `${food.id}`
+    })
+    playground.appendChild(food);
+    i++;
+}
+
+function checkFoodPosition() {
+    for (let i = 0; i < randomePositionList.length; i++) {
+        if (randomePositionList[i].top === player.style.top &&
+            randomePositionList[i].left === player.style.left) {
+            eatFood(randomePositionList[i].id);
+        }
+    }
+}
+
+function eatFood(foodId) { 
+    let clearFood = document.querySelector(`#${foodId}`);
+    playground.removeChild(clearFood);
+    foodCount = document.querySelectorAll('.food').length;
+    if (foodCount === 0) {
+        congratulationsYouWon();
+        return;
+    }
+}
+
+function congratulationsYouWon() {
+    playground.classList.add('congratulations');
 }
