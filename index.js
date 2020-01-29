@@ -24,6 +24,8 @@ function randomPosition(num) {
 }
 
 function movePlayer(e) {
+    player.classList = ""
+    player.classList.add("player");
     switch (e.keyCode) {
         case 37:
             moveLeft();
@@ -46,6 +48,7 @@ function movePlayer(e) {
 function moveLeft() {
     if (player.style.left > "0px") {
         movedHorizontal -= playerSize;
+        player.classList.add("left");
         player.style.left = `${movedHorizontal}px`;
         checkFoodPosition();
         return;
@@ -56,6 +59,7 @@ function moveLeft() {
 function moveTop() {
     if (player.style.top > "0px") {
         movedVertical -= playerSize;
+        player.classList.add("top");
         player.style.top = `${movedVertical}px`;
         checkFoodPosition();
         return;
@@ -66,6 +70,7 @@ function moveTop() {
 function moveRight() {
     if (movedHorizontal < Math.floor(window.innerWidth - playerSize)) {
         movedHorizontal += playerSize;
+        player.classList.add("right");
         player.style.left = `${movedHorizontal}px`;
         checkFoodPosition();
         return;
@@ -84,9 +89,11 @@ function moveDown() {
 }
 
 while (i < foodCount) {
-    const food = document.createElement('div');
+    const food = document.createElement('img');
     food.id = `food-${i}`;
     food.classList.add('food');
+    food.alt = 'food';
+    food.srcset = './images/cheese.jpg';
     food.style.top = `${randomPosition(Math.floor(window.innerHeight / playerSize))}px`;
     food.style.left = `${randomPosition(Math.floor(window.innerWidth / playerSize))}px`;
     randomePositionList.push({
@@ -107,7 +114,7 @@ function checkFoodPosition() {
     }
 }
 
-function eatFood(foodId) { 
+function eatFood(foodId) {
     let clearFood = document.querySelector(`#${foodId}`);
     playground.removeChild(clearFood);
     foodCount = document.querySelectorAll('.food').length;

@@ -8,23 +8,31 @@
   position: relative;
   width: 100vw;
   height: 100vh;
-  background: rgb(223, 244, 248);
+  background: rgb(255, 255, 255);
 }
 
 .player {
   position: absolute;
   width: 40px;
   height: 40px;
-  border: 4px dotted lightblue;
-  background: lightcoral;
+}
+
+.right {
+  transform: rotate(-90deg);
+}
+
+.left {
+  transform: rotate(90deg);
+}
+
+.top {
+  transform: rotate(180deg);
 }
 
 .food {
   position: absolute;
   width: 40px;
   height: 40px;
-  border: 4px dotted rgb(255, 132, 66);
-  background: rgb(250, 209, 74);
 }
 
 @keyframes congratulationsColor {
