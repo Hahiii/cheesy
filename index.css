@@ -4,17 +4,60 @@
   padding: 0;
 }
 
+body {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+button {
+  display: block;
+  border: 1px solid rgba(0, 0, 0, 0.42);
+  color: rgba(0, 0, 0, 0.598);
+  box-shadow: 0px 3px 5px 0px;
+  background: transparent;
+  cursor: pointer;
+  padding: 8px 16px;
+  transition: all .4s;
+}
+
+button:hover {
+  box-shadow: 0 0 0 0;
+}
+
+
+header {
+  display: flex;
+  padding: 40px 20px;
+  justify-content: flex-end;
+  align-items: center;
+  border-bottom:1px dotted rgb(179, 178, 178);
+}
+
+header span {
+  padding: 0 40px 0 20px;
+  font-size: 3rem;
+  font-weight: bold;
+}
+
 .playground {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   width: 100vw;
-  height: 100vh;
+  flex: 1;
   background: rgb(255, 255, 255);
 }
 
 .player {
   position: absolute;
-  width: 40px;
-  height: 40px;
+  padding: 5px;
+  top: 0;
+  width: 50px;
+  height: 50px;
+  z-index: 1;
 }
 
 .right {
@@ -29,21 +72,131 @@
   transform: rotate(180deg);
 }
 
-.food {
+.food,
+.trap {
   position: absolute;
   width: 40px;
   height: 40px;
 }
 
-@keyframes congratulationsColor {
-    20% {background-color: rgb(253, 171, 171);}
-    40% {background-color: rgb(247, 187, 250);}
-    60% {background-color: rgb(168, 222, 255);}
-    80% {background-color: rgb(175, 255, 175);}
-    100% {background-color: rgb(255, 188, 180);}
+@keyframes gameOver {
+  20% {
+    transform: scale(0.8);
+    transform: rotate(180deg);
+  }
+  40% {
+    transform: scale(0.6);
+  }
+  60% {
+    transform: scale(0.4);
+  }
+  80% {
+    transform: scale(0.2);
+  }
+  100% {
+    transform: scale(0);
+  }
 }
 
+.traped-mouse {
+  animation: gameOver 0.7s forwards;
+  animation: name duration timing-function delay iteration-count direction fill-mode;
+}
+
+.window {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  height: 300px;
+  color: rgba(0, 0, 0, 0.598);
+  z-index: 1;
+}
+
+.window h1 {
+  align-self: center;
+  font-size: 5rem;
+  transform: scale(0);
+  transition: all .2s;
+}
+
+.game-info {
+  display: flex;
+  justify-content: space-around;
+  position: absolute;
+  top: 40px;
+  align-self: flex-end;
+  width: 100%;
+  max-width: 30%;
+}
+
+.game-info span {
+  font-weight: bold;
+}
+
+.game-over {
+  background: rgba(174, 73, 73, 0.502);
+}
+
+@keyframes gameOverH1 {
+  50% {
+    transform: scale(.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.game-over h1{
+  animation: gameOverH1 4s forwards;
+}
+
+@keyframes congratulationsColor {
+  20% {
+    background: rgba(162, 250, 162, 0.6);
+  }
+  40% {
+    background: rgb(178, 237, 252, 0.6);
+  }
+  60% {
+    background: rgba(220, 186, 249, 0.6);
+  }
+  80% {
+    background: rgb(247, 248, 172, 0.6);
+  }
+  100% {
+    background: rgb(252, 183, 246, 0.6);
+  }
+}
+
+@keyframes congratulationsH1 {
+  20% {
+    transform: scale(0.7);
+  }
+  40% {
+    transform: scale(0.8);
+  }
+  60% {
+    transform: scale(0.7);
+  }
+  80% {
+    transform: scale(0.8);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
 
 .congratulations {
-    animation: congratulationsColor 4s alternate infinite;
+  animation: congratulationsColor 4s alternate infinite;
+}
+
+.congratulations h1 {
+  animation: congratulationsH1 4s alternate infinite;
+}
+
+.display {
+  display: none;
 }

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,10 +8,32 @@
     <link rel="stylesheet" href="./index.css">
     <title>get the cheese</title>
 </head>
+
 <body>
+    <header>
+        <p>Game ends in:</p>
+        <span class="start-timer"></span>
+    </header>
     <main class="playground">
         <img class="player" src="./images/mouse.png" alt="mouse img">
+        <div class="game-over window display" id="game-over">
+            <h1>Game Over</h1>
+            <div class="game-info">
+                <p>You Scored: <span class="score"></span> points</p>
+                <p>You lost in:<span class="time"></span></p>
+            </div>
+            <button id="again">Try again</button>
+        </div>
+        <div class="congratulations window display" id="congrats">
+            <h1>Congratulations</h1>
+            <div class="game-info">
+                <p>You Scored: <span class="score"></span> points</p>
+                <p>You won in:<span class="time"></span></p>
+            </div>
+            <button id="next">Next Level</button>
+        </div>
     </main>
     <script src="./index.js"></script>
 </body>
+
 </html>
