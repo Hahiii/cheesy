@@ -140,7 +140,7 @@ function moveTop() {
 }
 
 function moveRight() {
-    if (movedHorizontal < Math.floor(playground.clientWidth - (playerSize))) {
+    if (movedHorizontal < Math.floor(playground.clientWidth - (playerSize * 2))) {
         movedHorizontal += playerSize;
         player.classList.add("right");
         player.style.left = `${movedHorizontal}px`;
