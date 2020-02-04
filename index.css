@@ -36,9 +36,14 @@ header {
 }
 
 header span {
-  padding: 0 40px 0 20px;
+  padding: 0 30px 0 10px;
   font-size: 3rem;
   font-weight: bold;
+}
+
+.blue-cheese-timer {
+  width: 80%;
+  color: rgba(0, 124, 234, 0.78);
 }
 
 .playground {
@@ -73,7 +78,7 @@ header span {
 }
 
 .food,
-.trap {
+.trap, .blue-food {
   position: absolute;
   width: 40px;
   height: 40px;

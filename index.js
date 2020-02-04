@@ -4,14 +4,17 @@ const gameOverContainer = document.querySelector('#game-over');
 const congratsContainer = document.querySelector('#congrats');
 const scoreContainer = document.querySelectorAll('.score');
 const timeContainer = document.querySelectorAll('.time');
+const blueCheeseTimerContainer = document.querySelector('.blue-cheese-timer');
 const buttons = document.querySelectorAll('button');
 const startTimer = document.querySelector('.start-timer');
-
+let possiblePositionVertical = [];
+let possiblePositionHorizontal = [];
+let blueCheese = false;
+let blueCheeseArr = [];
 
 for (let i = 0; i < buttons.length; i++) {
     buttons[i].addEventListener("click", startNewGame, false);
 }
-console.log(playground.clientWidth);
 
 document.addEventListener("keydown", movePlayer, false);
 
@@ -20,15 +23,20 @@ let movedHorizontal = 0;
 let movedVertical = 0;
 let randomeFoodPositionList = [];
 let randomeTrapPositionList = [];
-let foodCount = 10;
 let trapCount = 5;
+let foodCount = 10;
+let count = foodCount + trapCount;
+let blueCheeseAmount = 1;
 let score = 0; // one cheese has 2 point / a blue cheese has 5 point / food at trap has 10 points
-let timer = 60; // one cheese has 2 point / a blue cheese has 5 point / food at trap has 10 points
-let timePassed = 0; // one cheese has 2 point / a blue cheese has 5 point / food at trap has 10 points
+let timer = 60;
+let timePassed = 0;
 let timeLeft;
+let sec = 3
+let blueCheeseTimer = sec * blueCheeseAmount;
+let blueTimerInterval;
+let combo = [];
 
 startTimer.innerHTML = timer;
-
 
 
 // functionality
@@ -41,7 +49,20 @@ function randomPosition(num) {
         randomePositionArr.push(possiblePosition)
         x++;
     }
-    return randomePositionArr[Math.floor(Math.random() * randomePositionArr.length)];
+    return randomePositionArr;
+}
+
+possiblePositionVertical = randomPosition(Math.floor(playground.clientHeight / playerSize));
+possiblePositionHorizontal = randomPosition(Math.floor(playground.clientWidth / playerSize));
+
+for (let y = 0; y < possiblePositionVertical.length; y++) {
+    for (let x = 0; x < possiblePositionHorizontal.length; x++) {
+        combo.push({
+            y: possiblePositionVertical[y],
+            x: possiblePositionHorizontal[x]
+        })
+    }
+
 }
 
 function movePlayer(e) {
@@ -71,7 +92,7 @@ function moveLeft() {
         movedHorizontal -= playerSize;
         player.classList.add("left");
         player.style.left = `${movedHorizontal}px`;
-        checkFoodPosition();
+        checkPosition();
         return;
     }
     return;
@@ -82,7 +103,7 @@ function moveTop() {
         movedVertical -= playerSize;
         player.classList.add("top");
         player.style.top = `${movedVertical}px`;
-        checkFoodPosition();
+        checkPosition();
         return;
     }
     return;
@@ -93,7 +114,7 @@ function moveRight() {
         movedHorizontal += playerSize;
         player.classList.add("right");
         player.style.left = `${movedHorizontal}px`;
-        checkFoodPosition();
+        checkPosition();
         return;
     }
     return;
@@ -103,96 +124,139 @@ function moveDown() {
     if (movedVertical < Math.floor(playground.clientHeight - (playerSize * 2))) {
         movedVertical += playerSize;
         player.style.top = `${movedVertical}px`;
-        checkFoodPosition();
+        checkPosition();
         return;
     }
     return;
 }
 
-function setFood() {
-    let i = 0;
-    while (i < foodCount) {
-        const food = document.createElement('img');
-        food.id = `food-${i}`;
-        food.classList.add('food');
-        food.alt = 'food';
-        food.srcset = './images/cheese.jpg';
-        food.style.top = `${randomPosition(Math.floor(playground.clientHeight / playerSize))}px`;
-        food.style.left = `${randomPosition(Math.floor(playground.clientWidth / playerSize))}px`;
-        randomeFoodPositionList.push({
-            top: food.style.top,
-            left: food.style.left,
-            id: `${food.id}`
+function setFood(src, count, sort, id, start) {
+    let i = start;
+    let food = "";
+    while (i < count) {
+        let position = combo[Math.floor(Math.random() * combo.length)];
+        if (i < 10) {
+            food = document.createElement('img');
+            food.id = id ? `food-${id + i}` : `food-${i}`;
+            id ? food.classList.add('blue-food') : food.classList.add('food');
+            food.alt = 'food';
+            food.srcset = src;
+            food.style.top = `${position.y}px`;
+            food.style.left = `${position.x}px`;
+
+            randomeFoodPositionList.push({
+                top: food.style.top,
+                left: food.style.left,
+                id: `${food.id}`,
+                sort: sort,
+            });
+
+            playground.appendChild(food);
+        } else {
+            setTrap(i, position, "trap");
+        }
+
+        combo = combo.filter((obj) => {
+            return combo.indexOf(obj) !== combo.indexOf(position);
         })
-        playground.appendChild(food);
         i++;
+    }
+    if (id) {
+        blueCheeseTimerContainer.innerHTML = blueCheeseTimer;
+        blueCheeseArr.push({
+            id: `${food.id}`,
+            sort: sort
+        })
     }
 }
 
-function setTrap() {
-    let i = 0;
-    while (i < trapCount) {
-        const trap = document.createElement('img');
-        trap.id = `trap-${i}`;
-        trap.classList.add('trap');
-        trap.alt = 'trap';
-        trap.srcset = './images/trap.png';
-        trap.style.top = `${randomPosition(Math.floor(playground.clientHeight / playerSize))}px`;
-        trap.style.left = `${randomPosition(Math.floor(playground.clientWidth / playerSize))}px`;
-        randomeTrapPositionList.push({
-            top: trap.style.top,
-            left: trap.style.left,
-            id: `${trap.id}`
-        })
-        playground.appendChild(trap);
-        i++;
-    }
+function setTrap(i, position, sort) {
+    const trap = document.createElement('img');
+    trap.id = `trap-${i}`;
+    trap.classList.add('trap');
+    trap.alt = 'trap';
+    trap.srcset = './images/trap.png';
+    trap.style.top = `${position.y}px`;
+    trap.style.left = `${position.x}px`;
+
+    randomeFoodPositionList.push({
+        id: `${trap.id}`,
+        top: trap.style.top,
+        left: trap.style.left,
+        sort: sort
+    });
+
+    playground.appendChild(trap);
 }
 
-function checkFoodPosition() {
+function addBlueCheese() {
+    setFood('./images/blue-cheese.png', blueCheeseAmount, "blue", count + 1, 0);
+    blueCheese = true;
+}
+
+
+
+
+// checks and resets
+
+function checkPosition() {
     for (let i = 0; i < randomeFoodPositionList.length; i++) {
         if (randomeFoodPositionList[i].top === player.style.top &&
             randomeFoodPositionList[i].left === player.style.left) {
-            eatFood(randomeFoodPositionList[i].id);
-        }
-    }
-    for (let i = 0; i < randomeTrapPositionList.length; i++) {
-        if (randomeTrapPositionList[i].top === player.style.top &&
-            randomeTrapPositionList[i].left === player.style.left) {
-            gameOver();
+            
+            if (randomeFoodPositionList[i].sort === "trap") {
+                gameOver();
+                return;
+            }
+            if (randomeFoodPositionList[i].sort === "blue") {
+                eatFood(randomeFoodPositionList[i].id, 5);
+                resetBlueCheeseInput()
+                cleanPosition(i);
+
+            } else {
+                eatFood(randomeFoodPositionList[i].id, 2);
+                cleanPosition(i);
+            }
         }
     }
 }
 
-function eatFood(foodId) {
-    score += 2
+function cleanPosition(i, blue) {
+    if (blue) {
+        randomeFoodPositionList.pop()
+        return;
+    }
+    randomeFoodPositionList = randomeFoodPositionList.filter((position) => {
+        if (randomeFoodPositionList[i].id !== position.id) {
+            return position
+        }
+    });
+}
+
+function eatFood(foodId, foodScore) {
+    score += foodScore
     let clearFood = document.querySelector(`#${foodId}`);
     playground.removeChild(clearFood);
     foodCount = document.querySelectorAll('.food').length;
+
     if (foodCount === 0) {
         congratulationsYouWon();
         return;
     }
 }
 
-
-
-
-
-// chekcs and resets
 function congratulationsYouWon() {
     congratsContainer.classList.remove('display');
     scoreContainer[1].innerHTML = score;
-    timeContainer[1].innerHTML = ` ${timePassed - 1} sec`
+    timeContainer[1].innerHTML = ` ${timePassed} sec`
     removeEventListener();
-    
 }
 
 function gameOver() {
     player.classList.add('traped-mouse')
     gameOverContainer.classList.remove('display')
     scoreContainer[0].innerHTML = score;
-    timeContainer[0].innerHTML = ` ${timePassed - 1} sec`
+    timeContainer[0].innerHTML = ` ${timePassed} sec`
     removeEventListener();
 }
 
@@ -205,23 +269,53 @@ function startNewGame() {
     window.location.reload()
 }
 
-
 function checkTimer() {
     startTimer.innerHTML = timer;
     if (timer === 0) {
         gameOver();
         return;
     }
+    if (timer % 2 === 0) {
+        if (blueCheeseArr.length <= 0) {
+            addBlueCheese()
+            return;
+        }
+    }
 }
 
+function checkBlueCheese() {
+    if (blueCheese && blueCheeseTimer > 0) {
+        blueCheeseTimerContainer.innerHTML = blueCheeseTimer;
+        blueCheeseTimer--;
+        return;
+    }
+
+    if (blueCheeseTimer === 0 && blueCheese) {
+        for (let i = 0; i < blueCheeseArr.length; i++) {
+            eatFood(blueCheeseArr[i].id, 0);
+            cleanPosition(0, true);
+            resetBlueCheeseInput();
+        }
+    }
+}
+
+function resetBlueCheeseInput() {
+    blueCheeseTimerContainer.innerHTML = "";
+    blueCheeseArr = [];
+    blueCheeseTimer = sec * blueCheeseAmount;
+    blueCheese = false;
+}
+
+
 timeLeft = setInterval(() => {
-    console.log(timer);
-    checkTimer();
     timer--;
+    checkTimer();
+    if (blueCheese) {
+        checkBlueCheese()
+    }
     return timePassed++
 }, 1000);
 
 
 
-setFood();
-setTrap();
+setFood('./images/cheese.jpg', count, "food", 0, 0);
