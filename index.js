@@ -291,7 +291,8 @@ function gameOver() {
 }
 
 function removeEventListener() {
-    document.removeEventListener("keydown", movePlayer, false);
+    document.removeEventListener("keydown", moveMouseByKeys, false);
+    controlContainer.removeEventListener('click', moveMouseByControl, false);
     clearInterval(timeLeft);
 }
 
