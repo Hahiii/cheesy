@@ -10,7 +10,7 @@ const startTimer = document.querySelector('.start-timer');
 const controlContainer = document.querySelector('.control-container');
 
 if (playground.clientWidth <= 800) {
-    controlContainer.addEventListener('click', moveMouseByControl, false);
+    controlContainer.addEventListener('click', moveMouseByControl, true);
 }
 
 let possiblePositionVertical = [];
@@ -22,7 +22,7 @@ for (let i = 0; i < buttons.length; i++) {
     buttons[i].addEventListener("click", startNewGame, false);
 }
 
-document.addEventListener("keydown", moveMouseByKeys, false);
+document.addEventListener("keydown", moveMouseByKeys, true);
 
 let playerSize = player.offsetWidth;
 let movedHorizontal = 0;
@@ -291,8 +291,8 @@ function gameOver() {
 }
 
 function removeEventListener() {
-    document.removeEventListener("keydown", moveMouseByKeys, false);
-    controlContainer.removeEventListener('click', moveMouseByControl, false);
+    document.removeEventListener("keydown", moveMouseByKeys, true);
+    controlContainer.removeEventListener('click', moveMouseByControl, true);
     clearInterval(timeLeft);
 }
 
