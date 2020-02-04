@@ -59,7 +59,7 @@ function randomPosition(num) {
 }
 
 possiblePositionVertical = randomPosition(Math.floor(playground.clientHeight / playerSize));
-possiblePositionHorizontal = randomPosition(Math.floor(playground.clientWidth / playerSize));
+possiblePositionHorizontal = randomPosition(Math.floor((playground.clientWidth - playerSize) / playerSize));
 
 for (let y = 0; y < possiblePositionVertical.length; y++) {
     for (let x = 0; x < possiblePositionHorizontal.length; x++) {
@@ -141,6 +141,8 @@ function moveTop() {
 
 function moveRight() {
     if (movedHorizontal < Math.floor(playground.clientWidth - (playerSize * 2))) {
+        console.log( Math.floor(playground.clientWidth - (playerSize * 2)));
+        
         movedHorizontal += playerSize;
         player.classList.add("right");
         player.style.left = `${movedHorizontal}px`;
