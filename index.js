@@ -5,8 +5,14 @@ const congratsContainer = document.querySelector('#congrats');
 const scoreContainer = document.querySelectorAll('.score');
 const timeContainer = document.querySelectorAll('.time');
 const blueCheeseTimerContainer = document.querySelector('.blue-cheese-timer');
-const buttons = document.querySelectorAll('button');
+const buttons = document.querySelectorAll('.reset');
 const startTimer = document.querySelector('.start-timer');
+const controlContainer = document.querySelector('.control-container');
+
+if (playground.clientWidth <= 800) {
+    controlContainer.addEventListener('click', moveMouseByControl, false);
+}
+
 let possiblePositionVertical = [];
 let possiblePositionHorizontal = [];
 let blueCheese = false;
@@ -16,7 +22,7 @@ for (let i = 0; i < buttons.length; i++) {
     buttons[i].addEventListener("click", startNewGame, false);
 }
 
-document.addEventListener("keydown", movePlayer, false);
+document.addEventListener("keydown", moveMouseByKeys, false);
 
 let playerSize = player.offsetWidth;
 let movedHorizontal = 0;
@@ -65,7 +71,7 @@ for (let y = 0; y < possiblePositionVertical.length; y++) {
 
 }
 
-function movePlayer(e) {
+function moveMouseByKeys(e) {
     player.classList = ""
     player.classList.add("player");
     switch (e.keyCode) {
@@ -86,6 +92,30 @@ function movePlayer(e) {
     }
     return;
 }
+
+function moveMouseByControl(event) {
+    player.classList = ""
+    player.classList.add("player");
+    let button = event.target.closest('button');
+    switch (button.dataset.move) {
+        case 'top':
+            moveTop();
+            break;
+        case 'right':
+            moveRight();
+            break;
+        case 'button':
+            moveDown();
+            break;
+        case 'left':
+            moveLeft();
+            break;
+        default:
+            break;
+    }
+    return;
+}
+
 
 function moveLeft() {
     if (player.style.left > "0px") {
@@ -203,7 +233,7 @@ function checkPosition() {
     for (let i = 0; i < randomeFoodPositionList.length; i++) {
         if (randomeFoodPositionList[i].top === player.style.top &&
             randomeFoodPositionList[i].left === player.style.left) {
-            
+
             if (randomeFoodPositionList[i].sort === "trap") {
                 gameOver();
                 return;

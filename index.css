@@ -11,7 +11,7 @@ body {
   overflow: hidden;
 }
 
-button {
+.window button {
   display: block;
   border: 1px solid rgba(0, 0, 0, 0.42);
   color: rgba(0, 0, 0, 0.598);
@@ -22,7 +22,7 @@ button {
   transition: all .4s;
 }
 
-button:hover {
+.window button:hover {
   box-shadow: 0 0 0 0;
 }
 
@@ -204,4 +204,70 @@ header span {
 
 .display {
   display: none;
+}
+
+footer {
+  display: none;
+  justify-content: center;
+  border-top:1px dotted rgb(179, 178, 178);
+}
+
+.control-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-gap: 5px;
+  width: 100%;
+  max-width: 30%;
+}
+
+.control-container button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  box-shadow: 0 0 0 0;
+  background: transparent;
+}
+
+.control-item img {
+  height: 30px;
+  object-fit: cover;
+}
+
+.control-top {
+  grid-column: 2 / span 1;
+  transform: rotate(180deg);
+}
+
+.control-right {
+  grid-column: 3 / span 1;
+  grid-row: 2 / span 1;
+  transform: rotate(-90deg);
+}
+
+.control-button {
+  grid-column: 2 / span 1;
+  grid-row: 3 / span 1;
+}
+
+.control-left {
+  grid-column: 1 / span 1;
+  transform: rotate(90deg);
+}
+
+@media only screen and (max-width: 800px) {
+  footer {
+    display: flex;
+  }
+
+  .game-over h1, .congratulations h1{
+    font-size: 3rem;
+    margin-bottom: 20px;
+  }
+
+  .game-info {
+    flex-direction: column;
+    max-width: 80%;
+  }
 }

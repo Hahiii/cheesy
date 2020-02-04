@@ -23,7 +23,7 @@
                 <p>You Scored: <span class="score"></span> points</p>
                 <p>You lost in:<span class="time"></span></p>
             </div>
-            <button id="again">Try again</button>
+            <button class="reset" id="again">Try again</button>
         </div>
         <div class="congratulations window display" id="congrats">
             <h1>Congratulations</h1>
@@ -31,9 +31,17 @@
                 <p>You Scored: <span class="score"></span> points</p>
                 <p>You won in:<span class="time"></span></p>
             </div>
-            <button id="next">Play again</button>
+            <button class="reset" id="next">Play again</button>
         </div>
     </main>
+    <footer>
+        <div class="control-container">
+            <button type="button" class="control-item control-top" data-move="top"><img src="./images/arrow.svg" alt=""></button type="button">
+            <button type="button" class="control-item control-right" data-move="right"><img src="./images/arrow.svg" alt=""></button>
+            <button type="button" class="control-item control-button" data-move="button"><img src="./images/arrow.svg" alt=""></button>
+            <button type="button" class="control-item control-left" data-move="left"><img src="./images/arrow.svg" alt=""></button>
+        </div>
+    </footer>
     <script src="./index.js"></script>
 </body>
 
