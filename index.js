@@ -21,6 +21,7 @@ let randomeFoodPositionList = [];
 let randomeTrapPositionList = [];
 let trapCount = 5;
 let foodCount = 10;
+let trapCheese = 0;
 let count = foodCount + trapCount;
 let blueCheeseAmount = 1;
 let score = 0; // one cheese has 2 point / a blue cheese has 5 point / food at trap has 10 points
@@ -145,8 +146,6 @@ function moveTop() {
 
 function moveRight() {
     if (movedHorizontal < Math.floor(playground.clientWidth - (playerSize * 2))) {
-        console.log(Math.floor(playground.clientWidth - (playerSize * 2)));
-
         movedHorizontal += playerSize;
         player.classList.add("right");
         player.style.left = `${movedHorizontal}px`;
@@ -198,6 +197,10 @@ function setFood(src, count, sort, id, start) {
         i++;
     }
     if (id) {
+        if (sort === 'bad') {
+            blueCheeseTimerContainer.classList.add('bad-cheese');
+        }
+        
         blueCheeseTimerContainer.innerHTML = blueCheeseTimer;
         blueCheeseArr.push({
             id: `${food.id}`,
@@ -225,8 +228,13 @@ function setTrap(i, position, sort) {
     playground.appendChild(trap);
 }
 
-function addBlueCheese() {
-    // setFood('./images/bad-cheese.png', blueCheeseAmount, "blue", count + 1, 0);
+function addBlueCheese(arg) {
+    if (arg === 4) {
+        setFood('./images/bad-cheese.png', blueCheeseAmount, "bad", count + 1, 0);
+        blueCheese = true;
+        trapCheese = 0;
+        return;
+    }
     setFood('./images/blue-cheese2.png', blueCheeseAmount, "blue", count + 1, 0);
     blueCheese = true;
 }
@@ -247,6 +255,11 @@ function checkPosition() {
             }
             if (randomeFoodPositionList[i].sort === "blue") {
                 eatFood(randomeFoodPositionList[i].id, 5);
+                resetBlueCheeseInput()
+                cleanPosition(i);
+
+            } else if (randomeFoodPositionList[i].sort === "bad") {
+                eatFood(randomeFoodPositionList[i].id, -3);
                 resetBlueCheeseInput()
                 cleanPosition(i);
 
@@ -314,7 +327,7 @@ function checkTimer() {
         gameOver();
         return;
     }
-    
+
     if (timer === 10) {
         startTimer.classList.add('red')
         return;
@@ -322,7 +335,8 @@ function checkTimer() {
 
     if (timer % 2 === 0) {
         if (blueCheeseArr.length <= 0) {
-            addBlueCheese()
+            trapCheese++
+            addBlueCheese(trapCheese)
             return;
         }
     }
@@ -346,6 +360,7 @@ function checkBlueCheese() {
 
 function resetBlueCheeseInput() {
     blueCheeseTimerContainer.innerHTML = "";
+    blueCheeseTimerContainer.classList.remove('bad-cheese')
     blueCheeseArr = [];
     blueCheeseTimer = sec * blueCheeseAmount;
     blueCheese = false;

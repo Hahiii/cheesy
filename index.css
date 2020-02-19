@@ -5,16 +5,16 @@
 }
 
 body {
-  font-family: Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-family: Haettenschweiler, "Arial Narrow Bold", sans-serif;
   display: flex;
   flex-direction: column;
   height: 100vh;
-  overflow: hidden; 
+  overflow: hidden;
 }
 
 :root {
---gameOverBgColor: rgba(207, 87, 87, 0.502);
---CongratsBColor:  rgba(188, 212, 188, 0.404);
+  --gameOverBgColor: rgba(207, 87, 87, 0.502);
+  --CongratsBColor: rgba(188, 212, 188, 0.404);
 }
 
 .window button {
@@ -26,7 +26,7 @@ body {
   padding: 8px 16px;
   margin-top: 40px;
   text-transform: uppercase;
-  transition: all .4s;
+  transition: all 0.4s;
 }
 
 .window button:hover {
@@ -88,8 +88,9 @@ header {
   content: "";
 }
 
-
-.blue-cheese-timer, .start-timer, .points {
+.blue-cheese-timer,
+.start-timer,
+.points {
   padding: 0 0px 0 0px;
   font-size: 2rem;
   font-weight: bolder;
@@ -97,12 +98,15 @@ header {
 }
 
 .red {
-  color:  red;
+  color: red;
 }
-
 
 .blue-cheese-timer {
   color: rgba(0, 125, 234, 0.404);
+}
+
+.bad-cheese {
+  color: #879667af;
 }
 
 .playground {
@@ -137,7 +141,8 @@ header {
 }
 
 .food,
-.trap, .blue-food {
+.trap,
+.blue-food {
   position: absolute;
   background-color: transparent;
   width: 40px;
@@ -185,7 +190,7 @@ header {
   align-self: center;
   font-size: 5rem;
   transform: scale(0);
-  transition: all .2s;
+  transition: all 0.2s;
 }
 
 .game-info {
@@ -212,14 +217,14 @@ header {
 
 @keyframes gameOverH1 {
   50% {
-    transform: scale(.5);
+    transform: scale(0.5);
   }
   100% {
     transform: scale(1);
   }
 }
 
-.game-over h1{
+.game-over h1 {
   animation: gameOverH1 4s forwards;
 }
 
@@ -277,7 +282,7 @@ header {
 footer {
   display: none;
   justify-content: center;
-  border-top:1px dotted rgb(179, 178, 178);
+  border-top: 1px dotted rgb(179, 178, 178);
 }
 
 .control-container {
@@ -329,7 +334,8 @@ footer {
     display: flex;
   }
 
-  .game-over h1, .congratulations h1{
+  .game-over h1,
+  .congratulations h1 {
     font-size: 3rem;
     margin-bottom: 20px;
   }
