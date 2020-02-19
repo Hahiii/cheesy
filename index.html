@@ -12,8 +12,32 @@
 <body>
     <header>
         <span class="blue-cheese-timer"></span>
-        <p>Game ends in:</p>
-        <span class="start-timer"></span>
+        <div class="info-container">
+            <div class="img-container">
+                <ul> points:
+                    <li>
+                        <img src="./images/cheese.jpg" alt="cheese">
+                        <span>+ 2</span>
+                    </li>
+                    <li>
+                        <img src="./images/blue-cheese2.png" alt="cheese">
+                        <span>+ 5</span>
+                    </li>
+                    <li>
+                        <img src="./images/bad-cheese.png" alt="bad-cheese">
+                        <span>- 3</span>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <p>Points</p>
+                <span class="points"></span>
+            </div>
+            <div>
+                <p>Sec left</p>
+                <span class="start-timer"></span>
+            </div>
+        </div>
     </header>
     <main class="playground">
         <img class="player" src="./images/mouse.png" alt="mouse img">
@@ -36,10 +60,14 @@
     </main>
     <footer>
         <div class="control-container">
-            <button type="button" class="control-item control-top" data-move="top"><img src="./images/arrow.svg" alt=""></button type="button">
-            <button type="button" class="control-item control-right" data-move="right"><img src="./images/arrow.svg" alt=""></button>
-            <button type="button" class="control-item control-button" data-move="button"><img src="./images/arrow.svg" alt=""></button>
-            <button type="button" class="control-item control-left" data-move="left"><img src="./images/arrow.svg" alt=""></button>
+            <button type="button" class="control-item control-top" data-move="top"><img src="./images/arrow.svg"
+                    alt=""></button type="button">
+            <button type="button" class="control-item control-right" data-move="right"><img src="./images/arrow.svg"
+                    alt=""></button>
+            <button type="button" class="control-item control-button" data-move="button"><img src="./images/arrow.svg"
+                    alt=""></button>
+            <button type="button" class="control-item control-left" data-move="left"><img src="./images/arrow.svg"
+                    alt=""></button>
         </div>
     </footer>
     <script src="./index.js"></script>

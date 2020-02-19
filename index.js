@@ -8,22 +8,12 @@ const blueCheeseTimerContainer = document.querySelector('.blue-cheese-timer');
 const buttons = document.querySelectorAll('.reset');
 const startTimer = document.querySelector('.start-timer');
 const controlContainer = document.querySelector('.control-container');
+const points = document.querySelector('.points');
 
-if (playground.clientWidth <= 800) {
-    controlContainer.addEventListener('click', moveMouseByControl, true);
-}
+points.innerHTML = 0;
 
-let possiblePositionVertical = [];
-let possiblePositionHorizontal = [];
 let blueCheese = false;
 let blueCheeseArr = [];
-
-for (let i = 0; i < buttons.length; i++) {
-    buttons[i].addEventListener("click", startNewGame, false);
-}
-
-document.addEventListener("keydown", moveMouseByKeys, true);
-
 let playerSize = player.offsetWidth;
 let movedHorizontal = 0;
 let movedVertical = 0;
@@ -41,8 +31,23 @@ let sec = 3
 let blueCheeseTimer = sec * blueCheeseAmount;
 let blueTimerInterval;
 let combo = [];
+let possiblePositionVertical = randomPosition(Math.floor((playground.clientHeight - playerSize) / playerSize));
+let possiblePositionHorizontal = randomPosition(Math.floor((playground.clientWidth - playerSize) / playerSize));
 
 startTimer.innerHTML = timer;
+
+
+if (playground.clientWidth <= 800) {
+    controlContainer.addEventListener('click', moveMouseByControl, true);
+} // check is the screen is smaller then 800 so to add control buttons for small screens
+// to be updated
+
+
+for (let i = 0; i < buttons.length; i++) {
+    buttons[i].addEventListener("click", startNewGame, false);
+}
+
+document.addEventListener("keydown", moveMouseByKeys, true);
 
 
 // functionality
@@ -58,8 +63,7 @@ function randomPosition(num) {
     return randomePositionArr;
 }
 
-possiblePositionVertical = randomPosition(Math.floor(playground.clientHeight / playerSize));
-possiblePositionHorizontal = randomPosition(Math.floor((playground.clientWidth - playerSize) / playerSize));
+
 
 for (let y = 0; y < possiblePositionVertical.length; y++) {
     for (let x = 0; x < possiblePositionHorizontal.length; x++) {
@@ -141,8 +145,8 @@ function moveTop() {
 
 function moveRight() {
     if (movedHorizontal < Math.floor(playground.clientWidth - (playerSize * 2))) {
-        console.log( Math.floor(playground.clientWidth - (playerSize * 2)));
-        
+        console.log(Math.floor(playground.clientWidth - (playerSize * 2)));
+
         movedHorizontal += playerSize;
         player.classList.add("right");
         player.style.left = `${movedHorizontal}px`;
@@ -222,7 +226,8 @@ function setTrap(i, position, sort) {
 }
 
 function addBlueCheese() {
-    setFood('./images/blue-cheese.png', blueCheeseAmount, "blue", count + 1, 0);
+    // setFood('./images/bad-cheese.png', blueCheeseAmount, "blue", count + 1, 0);
+    setFood('./images/blue-cheese2.png', blueCheeseAmount, "blue", count + 1, 0);
     blueCheese = true;
 }
 
@@ -270,7 +275,7 @@ function eatFood(foodId, foodScore) {
     let clearFood = document.querySelector(`#${foodId}`);
     playground.removeChild(clearFood);
     foodCount = document.querySelectorAll('.food').length;
-
+    points.innerHTML = score;
     if (foodCount === 0) {
         congratulationsYouWon();
         return;
