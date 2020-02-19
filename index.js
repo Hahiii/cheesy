@@ -275,6 +275,7 @@ function eatFood(foodId, foodScore) {
     let clearFood = document.querySelector(`#${foodId}`);
     playground.removeChild(clearFood);
     foodCount = document.querySelectorAll('.food').length;
+
     points.innerHTML = score;
     if (foodCount === 0) {
         congratulationsYouWon();
@@ -313,6 +314,12 @@ function checkTimer() {
         gameOver();
         return;
     }
+    
+    if (timer === 10) {
+        startTimer.classList.add('red')
+        return;
+    }
+
     if (timer % 2 === 0) {
         if (blueCheeseArr.length <= 0) {
             addBlueCheese()

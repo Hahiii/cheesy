@@ -96,6 +96,11 @@ header {
   flex: 1;
 }
 
+.red {
+  color:  red;
+}
+
+
 .blue-cheese-timer {
   color: rgba(0, 125, 234, 0.404);
 }
