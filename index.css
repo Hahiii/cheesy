@@ -344,4 +344,15 @@ footer {
     flex-direction: column;
     max-width: 80%;
   }
+
+  .info-container {
+    justify-content: center;
+    max-width: 80%;
+    flex-wrap: wrap;
+  }
+
+  .info-container div {
+    margin-right: 40px;
+    padding: 10px 0 0;
+  }
 }
