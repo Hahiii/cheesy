@@ -281,8 +281,12 @@ header {
 
 footer {
   display: none;
-  justify-content: center;
-  border-top: 1px dotted rgb(179, 178, 178);
+  position: absolute;
+  justify-content: start;
+  margin-bottom: 30px;
+  bottom: 0;
+  right: 0;
+  z-index: 9999;
 }
 
 .control-container {
@@ -304,7 +308,7 @@ footer {
 }
 
 .control-item img {
-  height: 30px;
+  height: 50px;
   object-fit: cover;
 }
 
